@@ -8,7 +8,8 @@ import sys
 import json
 
 # Ensure project root is in path
-sys.path.append(os.getcwd())
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(BASE_DIR)
 
 from core.main_engine import TataMF_Chatbot
 
@@ -23,8 +24,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize Bot
-bot = TataMF_Chatbot()
+# Lazy Initialize Bot to prevent timeout on serverless boot
+bot = None
+
+def get_bot():
+    global bot
+    if bot is None:
+        bot = TataMF_Chatbot()
+    return bot
 
 class QueryRequest(BaseModel):
     query: str
@@ -39,7 +46,7 @@ async def chat(request: QueryRequest):
         if not request.query:
             raise HTTPException(status_code=400, detail="Query cannot be empty")
         
-        response = bot.ask(request.query)
+        response = get_bot().ask(request.query)
         return ChatResponse(answer=response, status="success")
     except Exception as e:
         return ChatResponse(answer=f"An error occurred: {str(e)}", status="error")
