@@ -1,0 +1,36 @@
+name: Weekly Data Refresh
+
+on:
+  schedule:
+    - cron: '30 4 * * *' # Daily at 10:00 AM IST (04:30 UTC)
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          
+      - name: Run Refresh Pipeline
+        run: python scheduler/refresh_pipeline.py
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "Data Refresh Bot"
+          git config --global user.email "bot@tatamf-chatbot.com"
+          git add data/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: nightly refresh of knowledge base [skip ci]" && git push)

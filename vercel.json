@@ -1,0 +1,35 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "app.py",
+            "use": "@vercel/python"
+        },
+        {
+            "src": "ui/**",
+            "use": "@vercel/static"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/chat",
+            "dest": "app.py"
+        },
+        {
+            "src": "/metadata",
+            "dest": "app.py"
+        },
+        {
+            "src": "/health",
+            "dest": "app.py"
+        },
+        {
+            "src": "/",
+            "dest": "/ui/index.html"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/ui/$1"
+        }
+    ]
+}

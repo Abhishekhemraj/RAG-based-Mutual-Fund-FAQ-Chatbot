@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tata Mutual Fund FAQ Chatbot</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body data-theme="light">
+    <!-- Sidebar -->
+    <aside>
+        <div class="logo">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Tata MF Assistant</span>
+        </div>
+        
+        <nav>
+            <div class="nav-item active">
+                <i class="fa-solid fa-comment-dots"></i>
+                <span>AI Chat</span>
+            </div>
+            <div class="nav-item">
+                <i class="fa-solid fa-folder"></i>
+                <span>Funds</span>
+            </div>
+            <div class="nav-item">
+                <i class="fa-solid fa-file-invoice"></i>
+                <span>Statements</span>
+            </div>
+            <div class="nav-item">
+                <i class="fa-solid fa-circle-question"></i>
+                <span>FAQ</span>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="nav-item" id="theme-toggle">
+                <i class="fa-solid fa-moon"></i>
+                <span>Dark Mode</span>
+            </div>
+            <div class="nav-item">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </div>
+            <div class="user-profile nav-item">
+                <i class="fa-solid fa-circle-user"></i>
+                <span>Abhishek Hemraj</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+        <header>
+            <div class="header-info">
+                <h1>AI Chat Assistant</h1>
+                <div id="sync-status" style="font-size: 0.75rem; color: var(--text-secondary); display: flex; align-items: center; gap: 6px;">
+                    <i class="fa-solid fa-clock-rotate-left" style="font-size: 0.7rem;"></i>
+                    <span>Last Synced: Loading...</span>
+                </div>
+            </div>
+            <div class="header-tools">
+                <button class="tool-btn" style="background: var(--primary); color: white; border: none; padding: 10px 16px; border-radius: 8px;">
+                    <i class="fa-solid fa-bolt"></i> Upgrade
+                </button>
+            </div>
+        </header>
+
+        <div id="chat-container">
+            <!-- Welcome Screen (Shown initially) -->
+            <div id="welcome-screen" class="welcome-screen">
+                <h2>Welcome to Tata MF Assistant</h2>
+                <p>Get started by choosing a task or Chat can do the rest. Not sure where to start?</p>
+                
+                <div class="quick-actions">
+                    <div class="action-btn" onclick="sendQuickQuery('What is the exit load of Tata Flexi Cap Fund?')">
+                        <i class="fa-solid fa-receipt"></i>
+                        <span>Check Exit Load</span>
+                    </div>
+                    <div class="action-btn" onclick="sendQuickQuery('How can I download my account statements?')">
+                        <i class="fa-solid fa-download"></i>
+                        <span>Download Statements</span>
+                    </div>
+                    <div class="action-btn" onclick="sendQuickQuery('Minimum SIP for Tata ELSS?')">
+                        <i class="fa-solid fa-piggy-bank"></i>
+                        <span>SIP Details</span>
+                    </div>
+                    <div class="action-btn" onclick="sendQuickQuery('Check Riskometer for Tata Large Cap Fund')">
+                        <i class="fa-solid fa-gauge-high"></i>
+                        <span>Check Riskometer</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages will be appended here -->
+            <div id="messages"></div>
+            
+            <div id="typing-indicator" class="message bot" style="display: none;">
+                <div class="message-content">
+                    <div class="typing">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-wrapper">
+            <div class="input-container">
+                <div class="input-row">
+                    <i class="fa-regular fa-paperclip" style="color: var(--text-secondary); cursor: pointer;"></i>
+                    <textarea id="chat-input" placeholder="Type your message here..." rows="1"></textarea>
+                    <button id="send-btn" class="send-btn">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="input-tools">
+                    <div class="tool-btns">
+                        <div class="tool-btn">
+                            <i class="fa-solid fa-microphone"></i>
+                            <span>Voice Message</span>
+                        </div>
+                        <div class="tool-btn">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span>Browse Prompts</span>
+                        </div>
+                    </div>
+                    <div class="char-count" style="font-size: 0.75rem; color: var(--text-secondary);">
+                        <span id="char-val">0</span>/2000
+                    </div>
+                </div>
+            </div>
+            <p style="text-align: center; font-size: 0.75rem; color: var(--text-secondary); margin-top: 12px;">
+                Tata Assistant may generate inaccurate information. Use official sources for financial decisions.
+            </p>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
